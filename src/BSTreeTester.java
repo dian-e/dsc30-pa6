@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class BSTreeTester {
 
-    BSTree bst1, bst2, bst3;
+    /* BSTree bst1, bst2, bst3;
     Iterator iter1, iter2, iter3;
 
     @Before
@@ -134,11 +134,13 @@ public class BSTreeTester {
     @Test
     public void testHasNext() {
         assertTrue(iter1.hasNext());
-        assertTrue(iter2.hasNext());
-        assertFalse(iter3.hasNext());
+        assertTrue(iter1.hasNext());
 
-        bst3.insert(3.2);
-        assertTrue(iter3.hasNext());
+        assertTrue(iter2.hasNext());
+        assertTrue(iter2.hasNext());
+
+        assertFalse(iter3.hasNext());
+        assertFalse(iter3.hasNext());
     }
 
     @Test (expected = NoSuchElementException.class)
@@ -165,5 +167,20 @@ public class BSTreeTester {
         assertEquals('e', iter2.next());
         assertEquals('f', iter2.next());
         assertFalse(iter2.hasNext());
+    } */
+
+    @Test
+    public void testIntersection() {
+        BSTree bst4 = new BSTree();
+        int[] bst4Keys = {5, 1, 0, 4, 10, 7, 9};
+        for (int key: bst4Keys) { bst4.insert(key); }
+
+        BSTree bst5 = new BSTree();
+        int[] bst5Keys = {10, 7, 4, 9, 20};
+        for (int key: bst5Keys) { bst5.insert(key); }
+
+        Iterator iter4 = bst4.iterator();
+        Iterator iter5 = bst5.iterator();
+        assertEquals("[4, 7, 9, 10]", bst4.intersection(iter4, iter5).toString());
     }
 }

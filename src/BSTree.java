@@ -169,8 +169,10 @@ public class BSTree<T extends Comparable<? super T>> implements Iterable {
      */
     private boolean insertHelper(BSTNode curr, T toInsert) {
         int compared = toInsert.compareTo(curr.getKey());
+
         // if key is duplicate, inserting is unsuccessful
         if (compared == 0) { return false; }
+
         // otherwise, searches appropriate side for internal or leaf node to insert new node
         else if (compared < 0) {
             if (curr.getLeft() == null) {
@@ -330,6 +332,7 @@ public class BSTree<T extends Comparable<? super T>> implements Iterable {
             if (!hasNext()) { throw new NoSuchElementException(); }
             else {
                 popped = this.stack.pop();
+                // adds left path of right child if applicable
                 addLeftPath(popped.getRight());
             }
             return popped.getKey();
@@ -340,6 +343,7 @@ public class BSTree<T extends Comparable<? super T>> implements Iterable {
          * @param curr node to start pushing from
          */
         private void addLeftPath(BSTNode curr) {
+            // robust even if the given root is null
             while (curr != null) {
                 this.stack.push(curr);
                 curr = curr.getLeft();
@@ -356,8 +360,37 @@ public class BSTree<T extends Comparable<? super T>> implements Iterable {
     /* * * * * Extra Credit Methods * * * * */
 
     public ArrayList<T> intersection(Iterator<T> iter1, Iterator<T> iter2) {
-        /* TODO */
-        return null;
+        ArrayList<T> intersect = new ArrayList<>();
+        T currVal1, currVal2;
+        int compared;
+
+        // loops through iter1
+        while (iter1.hasNext()) {
+            currVal1 = iter1.next();
+
+            // loops through iter2
+            while (iter2.hasNext()) {
+                currVal2 = iter2.next();
+                compared = currVal1.compareTo(currVal2);
+
+                // if iter1 item is less than iter2 item, continue checking next iter1 values
+                while (compared < 0) {
+                    if (iter1.hasNext()) {
+                        currVal1 = iter1.next();
+                        compared = currVal1.compareTo(currVal2);
+                    } else {
+                        return intersect;
+                    }
+                }
+                // if the items are equal, add to the intersection and move to next iter1 item
+                // if iter1 item is greater than iter2 item, moves to next iter2 item
+                if (compared == 0) {
+                    intersect.add(currVal1);
+                    break;
+                }
+            }
+        }
+        return intersect;
     }
 
     public int levelCount(int level) {
