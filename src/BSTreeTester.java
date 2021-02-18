@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class BSTreeTester {
 
-    /* BSTree bst1, bst2, bst3;
+    BSTree bst1, bst2, bst3;
     Iterator iter1, iter2, iter3;
 
     @Before
@@ -167,7 +167,7 @@ public class BSTreeTester {
         assertEquals('e', iter2.next());
         assertEquals('f', iter2.next());
         assertFalse(iter2.hasNext());
-    } */
+    }
 
     @Test
     public void testIntersection() {

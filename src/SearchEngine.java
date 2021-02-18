@@ -17,6 +17,8 @@ import java.util.Scanner;
  */
 public class SearchEngine {
 
+    private static final int QUERY_START = 2;
+
     /**
      * Populate BSTrees from a file
      * @param movieTree  - BST to be populated with actors
@@ -75,14 +77,17 @@ public class SearchEngine {
 
         // process query
         String[] keys = query.toLowerCase().split(" ");
-        LinkedList<String> firstTerm = searchTree.findDataList(keys[0]);
+        // inserts key if not already in tree to avoid IAE in finding datalist
+        searchTree.insert(keys[0]);
+        LinkedList<String> firstVals = searchTree.findDataList(keys[0]);
 
         // search and output intersection results
         LinkedList<String> commonVals = new LinkedList<>();
-        commonVals.addAll(firstTerm);
+        commonVals.addAll(firstVals);
         LinkedList<String> currVals;
         // if more than 1 key in query, iteratively retains only values common to all keys
         for (int i = 1; i < keys.length; i++) {
+            searchTree.insert(keys[i]);
             currVals = searchTree.findDataList(keys[i]);
             commonVals.retainAll(currVals);
         }
@@ -142,7 +147,7 @@ public class SearchEngine {
         int searchKind = Integer.parseInt(args[1]);
 
         String query = "";
-        for (int i = 2; i < args.length; i++) {
+        for (int i = QUERY_START; i < args.length; i++) {
             query += args[i] + " ";
         }
 
